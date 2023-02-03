@@ -664,11 +664,11 @@ if [ "$h" -eq 1 ] ; then
     sed -i 's/,/./g' altitude.txt  # Transformer les virgules en points
     echo -e "Le fichier sur l'altitude a été crée.\n"    # Message de validation
     if [ "$abr" -eq 1 ] ; then
-        ./triABR f altitude.txt o altitude_trie.txt h
+        ./triABR r f altitude.txt o altitude_trie.txt h
     elif [ "$tab" -eq 1 ] ; then
-        ./triLC f altitude.txt o altitude_trie.txt h
+        ./triLC r f altitude.txt o altitude_trie.txt h
     else
-        ./triAVL f altitude.txt o altitude_trie.txt h
+        ./triAVL r f altitude.txt o altitude_trie.txt h
     fi
     rm altitude.txt
     gnuplot -persist <<-EOFMarker
@@ -705,11 +705,11 @@ if [ "$m" -eq 1 ] ; then
     sed -i 's/,/./g' humidite.txt  # Transformer les virgules en points
     echo -e "Le fichier sur l'humidite a été crée.\n"    # Message de validation
     if [ "$abr" -eq 1 ] ; then
-        ./triABR f humidite.txt o humidite_trie.txt m
+        ./triABR r f humidite.txt o humidite_trie.txt m
     elif [ "$tab" -eq 1 ] ; then
-        ./triLC f humidite.txt o humidite_trie.txt m
+        ./triLC r f humidite.txt o humidite_trie.txt m
     else
-        ./triAVL f humidite.txt o humidite_trie.txt m
+        ./triAVL r f humidite.txt o humidite_trie.txt m
     fi
     rm humidite.txt
     gnuplot -persist <<-EOFMarker
