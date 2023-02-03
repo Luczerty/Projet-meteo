@@ -22,12 +22,26 @@ fi
 # ----------------------------------------------------------------------------------------------------
 
 
-# On vérifie si l'exécutable du programme en c est présent
+# On vérifie si les exécutables du programme en c sont présent
 
-if [ ! -e exec ] ; then   # S'il n'est pas présent
-    echo "L'executable n'est pas présent: compilation en cours."
+if [ ! -e triAVL ] ; then   # S'il n'est pas présent
+    echo "L'executable pour le tri avec un AVL n'est pas présent: compilation en cours."
     sleep 1
-    make
+    gcc triAVL.c -o triAVL
+    echo "L'executable a été crée."
+    sleep 1.5
+fi
+if [ ! -e triABR ] ; then   # S'il n'est pas présent
+    echo "L'executable pour le tri avec un ABR n'est pas présent: compilation en cours."
+    sleep 1
+    gcc triABR.c -o triABR
+    echo "L'executable a été crée."
+    sleep 1.5
+fi
+if [ ! -e triLC ] ; then   # S'il n'est pas présent
+    echo "L'executable pour le tri avec une liste chaînée n'est pas présent: compilation en cours."
+    sleep 1
+    gcc triLC.c -o triLC
     echo "L'executable a été crée."
     sleep 1.5
 fi
