@@ -406,6 +406,16 @@ if [ "$t" -eq 1 ] ; then
     else
         ./triAVL f temperature1.txt o temperature1_trie.txt t
     fi
+    rm temperature1.txt
+    gnuplot -persist <<-EOFMarker
+    set title "Température des stations"    # Titre du gnuplot
+    set xlabel "ID de station"  # Nom de l'axe des x
+    set ylabel "Température"    # Nom de l'axe des y
+    set size ratio 1  # Taille du graphique
+    set xtics rotate    # Rotation du nom des valeurs de l'axe x
+    plot 'temperature1_trie.txt' using log(1):3:2:xtic(1) with filledcurve title "Ecart avec température min et max" lc rgb '#fde725', '' using log(1):4 smooth mcspline lw 2 title "Température moyenne"   # Commande pour produire le graphique
+EOFMarker
+    rm temperature1_trie.txt
 elif [ "$t" -eq 2 ] ; then
     echo "Filtre selon la température en mode 2."
     tail -n+2 "$f" | awk -F";" '
@@ -427,6 +437,18 @@ elif [ "$t" -eq 2 ] ; then
     else
         ./triAVL f temperature2.txt o temperature2_trie.txt t
     fi
+    rm temperature2.txt
+    gnuplot -persist <<-EOFMarker
+    set title "Moyenne des températures selon la date"  # Titre du gnuplot
+    set xlabel "Date"   # Nom de l'axe des x
+    set ylabel "Moyenne température"    # Nom de l'axe des y
+    set size ratio 1  # Taille du graphique
+    set xdata time  # On definit l'axe des x comme une date
+    set timefmt "%Y-%m-%dT%H"   # Format de la date
+    set xtic rotate # Rotation du nom des valeurs de l'axe x
+    plot 'temperature2_trie.txt' using 1:2 with l title "Température"   # Commande pour produire le graphique
+EOFMarker
+    rm temperature2_trie.txt
 elif [ "$t" -eq 3 ] ; then
     echo "Filtre selon la température en mode 3."
     tail -n+2 "$f" | awk -F'[;T:]' '
@@ -445,6 +467,23 @@ elif [ "$t" -eq 3 ] ; then
     else
         ./triAVL f temperature3.txt o temperature3_trie.txt t
     fi
+    gnuplot -persist <<-EOFMarker
+    set title "Températures selon la date/heure"
+    set xlabel "Jour"
+    set ylabel "Température"
+    unset key
+    set xdata time
+    set timefmt "%Y-%m-%d"
+    set format x "%Y-%m-%d"
+    set xtic rotate
+    set datafile separator " "
+    set palette model RGB defined (1 "#440154", 4 "#472c7a", 7 "#3b518b" , 10 "#2c718e", 13 "#21908d", 16 "#27ad81", 19 "#5cc863", 22 "#aadc32")
+    set cbrange [1:22]
+    set cbtics format ""
+    set cbtics ("1H" 1, "4H" 4, "7H" 7, "10H" 10, "13H" 13, "16H" 16, "19H" 19, "22H" 22)
+    plot 'temperature3_trie.txt' using 2:4:3 with l title "Température" palette
+EOFMarker
+    rm temperature3_trie.txt
 fi
 
 # Pression atmosphérique
@@ -487,6 +526,16 @@ if [ "$p" -eq 1 ] ; then
     else
         ./triAVL f pression1.txt o pression1_trie.txt p
     fi
+    rm pression1.txt
+    gnuplot -persist <<-EOFMarker
+    set title "Pression des stations"   # Titre du gnuplot
+    set xlabel "ID de station"  # Nom de l'axe des x
+    set ylabel "Pression"   # Nom de l'axe des y
+    set size ratio 1  # Taille du graphique
+    set xtics rotate    # Rotation du nom des valeurs de l'axe x
+    plot 'pression1_trie.txt' using log(1):3:2:xtic(1) with filledcurve title "Ecart avec pression min et max" lc rgb '#fde725', '' using log(1):4 smooth mcspline lw 2 title "Pression moyenne" # Commande pour produire le graphique
+EOFMarker
+    rm pression1_trie.txt
 elif [ "$p" -eq 2 ] ; then
     echo "Filtre selon la pression atmosphérique en mode 2."
     tail -n+2 "$f" | awk -F";" '
@@ -508,6 +557,18 @@ elif [ "$p" -eq 2 ] ; then
     else
         ./triAVL f pression2.txt o pression2_trie.txt p
     fi
+    rm pression2.txt
+    gnuplot -persist <<-EOFMarker
+    set title "Moyenne des pression selon la date"  # Titre du gnuplot
+    set xlabel "Date"   # Nom de l'axe des x
+    set ylabel "Moyenne pression"   # Nom de l'axe des y
+    set size ratio 1  # Taille du graphique
+    set xdata time  # On definit l'axe des x comme une date
+    set timefmt "%Y-%m-%dT%H"   # Format de la date
+    set xtic rotate # Rotation du nom des valeurs de l'axe x
+    plot 'pression2_trie.txt' using 1:2 with l title "Pression" # Commande pour produire le graphique
+EOFMarker
+    rm pression2_trie.txt
 elif [ "$p" -eq 3 ] ; then
     echo "Filtre selon la pression atmosphérique en mode 3."
     tail -n+2 "$f" | awk -F'[;T:]' '
@@ -526,6 +587,23 @@ elif [ "$p" -eq 3 ] ; then
     else
         ./triAVL f pression3.txt o pression3_trie.txt p
     fi
+    rm pression3.txt
+    gnuplot -persist <<-EOFMarker
+    set title "Pression selon la date/heure"
+    set xlabel "Jour"
+    set ylabel "Pression"
+    unset key
+    set xdata time
+    set timefmt "%Y-%m-%d %H"
+    set xtic rotate
+    set datafile separator " "
+    set palette model RGB defined (1 "#440154", 4 "#472c7a", 7 "#3b518b" , 10 "#2c718e", 13 "#21908d", 16 "#27ad81", 19 "#5cc863", 22 "#aadc32")
+    set cbrange [1:22]
+    set cbtics format ""
+    set cbtics ("1H" 1, "4H" 4, "7H" 7, "10H" 10, "13H" 13, "16H" 16, "19H" 19, "22H" 22)
+    plot 'pression3_trie.txt' using 2:4:3 with l title "Prssion" palette
+EOFMarker
+    rm pression3_trie.txt
 fi
 
 # Vent
@@ -557,6 +635,16 @@ if [ "$w" -eq 1 ] ; then
     else
         ./triAVL f vent.txt o vent_trie.txt v
     fi
+    rm vent.txt
+    gnuplot -persist <<-EOFMarker
+    set title "Vitesse moyen du vent selon des vecteurs"  # Titre du gnuplot
+    set xlabel "Longitude"  # Nom de l'axe des x
+    set ylabel "Latitude"   # Nom de l'axe des y
+    set size ratio 1    # Taille du graphique
+    set palette rgb 33,13,10    # Mis en place d'une palette pour des couleurs
+    plot 'vent_trie.txt' using 5:6:(column(2)*3):(column(3)*3):4 with vectors palette title "vent"  # Commande pour produire le graphique. On a multiplé les composantes x et y des vecteurs pour mieux les voir
+EOFMarker
+    rm vent_trie.txt
 fi
 
 # Altitude
@@ -582,6 +670,16 @@ if [ "$h" -eq 1 ] ; then
     else
         ./triAVL f altitude.txt o altitude_trie.txt h
     fi
+    rm altitude.txt
+    gnuplot -persist <<-EOFMarker
+    set title "Altitude des station"    # Titre du gnuplot
+    set xlabel "Longitude"  # Nom de l'axe des x
+    set ylabel "Latitude"   # Nom de l'axe des y
+    set size ratio 1  # Taille du graphique
+    set palette rgb 33,13,10    # Mis en place d'une palette pour des couleurs
+    splot 'altitude_trie.txt' using 2:1:3 ls 7 ps 2 palette title "Altitudes des stations"  # Commande pour produire le graphique
+EOFMarker
+    rm altitude_trie.txt
 fi
 
 # Humidité
@@ -613,6 +711,21 @@ if [ "$m" -eq 1 ] ; then
     else
         ./triAVL f humidite.txt o humidite_trie.txt m
     fi
+    rm humidite.txt
+    gnuplot -persist <<-EOFMarker
+    set title "Humidité max par station"    # Titre du gnuplot
+    set xlabel "Longitude"  # Nom de l'axe des x
+    set ylabel "Latitude"   # Nom de l'axe des y
+    set size ratio 1  # Taille du graphique
+    stats 'humidite_trie.txt' using 1 name 'h' nooutput # On récupère les valeurs de l'humidité
+    set cbrange [h_min:h_max]   # Encadrement de la teinte de couleurs
+    unset key   # Effacement de la légende 
+    set pm3d map
+    set dgrid3d 100,100
+    set pm3d interpolate 0,0
+    splot 'humidite_trie.txt' using 2:3:1   # Commande pour produire le graphique
+EOFMarker
+    rm humidite_trie.txt
 fi
 
 if [ -e "filtre.csv" ] ; then   # On vérifie si on a utilisé un fichier temporaire pour le filtrage
