@@ -399,7 +399,13 @@ if [ "$t" -eq 1 ] ; then
     END{for(ID in som) print ID, min[ID], max[ID], som[ID]/compt[ID]}' > temperature1.txt    # On récupère l'ID de la station, la température max, la température min et la température moyenne que l'on met dans un fichier.txt
     sed -i 's/,/./g' temperature1.txt  # Transformer les virgules en points
     echo -e "Le fichier sur la température en mode 1 a été crée.\n"  # Message de validation
-    Tri_en_C temperature1.txt "$abr" "$tab"
+    if [ "$abr" -eq 1 ] ; then
+        ./triABR f temperature1.txt o temperature1_trie.txt t
+    elif [ "$tab" -eq 1 ] ; then
+        ./triLC f temperature1.txt o temperature1_trie.txt t
+    else
+        ./triAVL f temperature1.txt o temperature1_trie.txt t
+    fi
 elif [ "$t" -eq 2 ] ; then
     echo "Filtre selon la température en mode 2."
     tail -n+2 "$f" | awk -F";" '
@@ -414,7 +420,13 @@ elif [ "$t" -eq 2 ] ; then
     END{for(DATE in som) print DATE, som[DATE]/compt[DATE]}' > temperature2.txt
     sed -i 's/,/./g' temperature2.txt   # Transformer les virgules en points
     echo -e "Le fichier sur la température en mode 2 a été crée.\n"   # Message de validation
-    Tri_en_C temperature2.txt "$abr" "$tab"
+    if [ "$abr" -eq 1 ] ; then
+        ./triABR f temperature2.txt o temperature2_trie.txt t
+    elif [ "$tab" -eq 1 ] ; then
+        ./triLC f temperature2.txt o temperature2_trie.txt t
+    else
+        ./triAVL f temperature2.txt o temperature2_trie.txt t
+    fi
 elif [ "$t" -eq 3 ] ; then
     echo "Filtre selon la température en mode 3."
     tail -n+2 "$f" | awk -F'[;T:]' '
@@ -426,7 +438,13 @@ elif [ "$t" -eq 3 ] ; then
     }' > temperature3.txt
     sed -i 's/,/./g' temperature3.txt  # Transformer les virgules en points
     echo -e "Le fichier sur la pression atmosphérique en mode 3 a été crée.\n"   # Message de validation 
-    Tri_en_C temperature3.txt "$abr" "$tab"
+    if [ "$abr" -eq 1 ] ; then
+        ./triABR f temperature3.txt o temperature3_trie.txt t
+    elif [ "$tab" -eq 1 ] ; then
+        ./triLC f temperature3.txt o temperature3_trie.txt t
+    else
+        ./triAVL f temperature3.txt o temperature3_trie.txt t
+    fi
 fi
 
 # Pression atmosphérique
@@ -462,7 +480,13 @@ if [ "$p" -eq 1 ] ; then
     END{for(ID in som) print ID, min[ID], max[ID], som[ID]/compt[ID]}' > pression1.txt    # On récupère l'ID de la station, la pression max, la pression min et la pression moyenne que l'on met dans un fichier.txt
     sed -i 's/,/./g' pression1.txt  # Transformer les virgules en points
     echo -e "Le fichier sur la pression atmosphérique en mode 1 a été crée.\n"   # Message de validation
-    Tri_en_C pression1.txt "$abr" "$tab"
+    if [ "$abr" -eq 1 ] ; then
+        ./triABR f pression1.txt o pression1_trie.txt p
+    elif [ "$tab" -eq 1 ] ; then
+        ./triLC f pression1.txt o pression1_trie.txt p
+    else
+        ./triAVL f pression1.txt o pression1_trie.txt p
+    fi
 elif [ "$p" -eq 2 ] ; then
     echo "Filtre selon la pression atmosphérique en mode 2."
     tail -n+2 "$f" | awk -F";" '
@@ -477,7 +501,13 @@ elif [ "$p" -eq 2 ] ; then
     END{for(DATE in som) print DATE, som[DATE]/compt[DATE]}' > pression2.txt
     sed -i 's/,/./g' pression2.txt  # Transformer les virgules en points
     echo -e "Le fichier sur la pression atmosphérique en mode 2 a été crée.\n"   # Message de validation
-    Tri_en_C pression2.txt "$abr" "$tab"
+    if [ "$abr" -eq 1 ] ; then
+        ./triABR f pression2.txt o pression2_trie.txt p
+    elif [ "$tab" -eq 1 ] ; then
+        ./triLC f pression2.txt o pression2_trie.txt p
+    else
+        ./triAVL f pression2.txt o pression2_trie.txt p
+    fi
 elif [ "$p" -eq 3 ] ; then
     echo "Filtre selon la pression atmosphérique en mode 3."
     tail -n+2 "$f" | awk -F'[;T:]' '
@@ -489,7 +519,13 @@ elif [ "$p" -eq 3 ] ; then
     }' > pression3.txt
     sed -i 's/,/./g' pression3.txt  # Transformer les virgules en points
     echo -e "Le fichier sur la pression atmosphérique en mode 3 a été crée.\n"   # Message de validation 
-    Tri_en_C pression3.txt "$abr" "$tab"
+    if [ "$abr" -eq 1 ] ; then
+        ./triABR f pression3.txt o pression3_trie.txt p
+    elif [ "$tab" -eq 1 ] ; then
+        ./triLC f pression3.txt o pression3_trie.txt p
+    else
+        ./triAVL f pression3.txt o pression3_trie.txt p
+    fi
 fi
 
 # Vent
@@ -514,7 +550,13 @@ if [ "$w" -eq 1 ] ; then
     END{for(ID in somDIRX) print ID, somDIRX[ID]/comptDIR[ID], somDIRY[ID]/comptDIR[ID], somVIT[ID]/comptVIT[ID], long[ID], lat[ID]}' > vent.txt  # On récupère l'ID de la station, l'orientation moyenne des vents et la vitesse moyenne des vents que l'on met dans un fichier.tx
     sed -i 's/,/./g' vent.txt   # Transformer les virgules en points
     echo -e "Le fichier sur le vent a été crée.\n"    # Message de validation
-    Tri_en_C vent.txt "$abr" "$tab"
+    if [ "$abr" -eq 1 ] ; then
+        ./triABR f vent.txt o vent_trie.txt v
+    elif [ "$tab" -eq 1 ] ; then
+        ./triLC f vent.txt o vent_trie.txt v
+    else
+        ./triAVL f vent.txt o vent_trie.txt v
+    fi
 fi
 
 # Altitude
@@ -533,7 +575,13 @@ if [ "$h" -eq 1 ] ; then
     END{for(ID in alt) print alt[ID], long[ID], lat[ID]}' > altitude.txt   # On récupère l'ID de la station, l'altitude et les coordonnées que l'on met dans un fichier.txt
     sed -i 's/,/./g' altitude.txt  # Transformer les virgules en points
     echo -e "Le fichier sur l'altitude a été crée.\n"    # Message de validation
-    Tri_en_C altitude.txt "$abr" "$tab" r
+    if [ "$abr" -eq 1 ] ; then
+        ./triABR f altitude.txt o altitude_trie.txt h
+    elif [ "$tab" -eq 1 ] ; then
+        ./triLC f altitude.txt o altitude_trie.txt h
+    else
+        ./triAVL f altitude.txt o altitude_trie.txt h
+    fi
 fi
 
 # Humidité
@@ -558,7 +606,13 @@ if [ "$m" -eq 1 ] ; then
     END{for(ID in moist) print moist[ID], long[ID], lat[ID]}' > humidite.txt     # On récupère l'ID de la station, l'humidité et les coordonnées que l'on met dans un fichier.txt
     sed -i 's/,/./g' humidite.txt  # Transformer les virgules en points
     echo -e "Le fichier sur l'humidite a été crée.\n"    # Message de validation
-    Tri_en_C humidite.txt "$abr" "$tab" r
+    if [ "$abr" -eq 1 ] ; then
+        ./triABR f humidite.txt o humidite_trie.txt m
+    elif [ "$tab" -eq 1 ] ; then
+        ./triLC f humidite.txt o humidite_trie.txt m
+    else
+        ./triAVL f humidite.txt o humidite_trie.txt m
+    fi
 fi
 
 if [ -e "filtre.csv" ] ; then   # On vérifie si on a utilisé un fichier temporaire pour le filtrage
